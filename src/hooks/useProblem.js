@@ -24,7 +24,7 @@ export function useProblem(id) {
         const data = await problemService.getById(id)
         console.log("Problema obtenido:", data)
 
-        // Añadir log para ver los campos específicos
+        // Add log to view specific fields
         console.log("Campos del problema:", {
           inputFormat: data.inputFormat,
           outputFormat: data.outputFormat,
@@ -32,10 +32,10 @@ export function useProblem(id) {
           output_format: data.output_format,
         })
 
-        // Normalizar los nombres de los campos para asegurar compatibilidad
+        // Standardize field names to ensure compatibility
         const normalizedProblem = {
           ...data,
-          // Asegurar que inputFormat y outputFormat estén disponibles
+          // Ensure that inputFormat and outputFormat are available
           inputFormat: data.inputFormat || data.input_format || "",
           outputFormat: data.outputFormat || data.output_format || "",
         }
@@ -45,7 +45,7 @@ export function useProblem(id) {
       } catch (err) {
         console.error(`Error al obtener el problema ${id}:`, err)
 
-        // Proporcionar mensajes de error más específicos
+        // Provide more specific error messages
         if (err.response) {
           if (err.response.status === 404) {
             setError(`Problema con ID ${id} no encontrado`)

@@ -13,13 +13,13 @@ const LoginPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  // Obtener la ruta de redirección si existe
+  // Get the redirect path if it exists
   const from = location.state?.from?.pathname || "/"
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // Validación básica
+    // Basic validation
     if (!email.trim() || !password.trim()) {
       setFormError("Por favor, completa todos los campos")
       return
@@ -27,10 +27,10 @@ const LoginPage = () => {
 
     try {
       await login(email, password)
-      // Redirigir al usuario a la página anterior o a la página principal
+      // Redirect the user to the previous page or the home page.
       navigate(from, { replace: true })
     } catch (err) {
-      // El error ya se maneja en el contexto de autenticación
+      // The error is already handled in the authentication context.
     }
   }
 

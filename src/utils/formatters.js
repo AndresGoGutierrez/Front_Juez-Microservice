@@ -1,4 +1,4 @@
-// Formatear el tamaño de memoria
+// Format memory size
 export const formatMemory = (bytes) => {
   if (!bytes) return "N/A";
 
@@ -11,13 +11,13 @@ export const formatMemory = (bytes) => {
   return `${mb.toFixed(2)} MB`;
 };
 
-// Formatear fecha
+// Format date
 export const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleString();
 };
 
-// Obtener la clase CSS para la dificultad del problema
+// Get the CSS class for problem difficulty
 export const getDifficultyClass = (difficulty) => {
   switch (difficulty.toLowerCase()) {
     case "easy":
@@ -34,7 +34,7 @@ export const getDifficultyClass = (difficulty) => {
   }
 };
 
-// Obtener la clase CSS para el estado del envío
+// Get the CSS class for submission status
 export const getStatusClass = (status) => {
   switch (status.toLowerCase()) {
     case "accepted":
@@ -52,7 +52,7 @@ export const getStatusClass = (status) => {
   }
 };
 
-// Formatear texto con saltos de línea
+// Format text with line breaks
 export const formatText = (text) => {
   if (!text) return "";
   return text.replace(/\n/g, "<br>");

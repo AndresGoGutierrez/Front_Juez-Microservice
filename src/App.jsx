@@ -32,7 +32,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
-          {/* Rutas públicas con Header y Footer */}
+          {/* Public routes with header and footer */}
           <Route
             path="/"
             element={
@@ -71,7 +71,7 @@ function App() {
           />
           
 
-          {/* Rutas protegidas con Header y Footer */}
+          {/* Routes protected with Header and Footer */}
           <Route
             path="/problems/:id"
             element={
@@ -117,7 +117,7 @@ function App() {
 
           
 
-          {/* Rutas de administración (sin Header ni Footer, usa AdminLayout) */}
+          {/* Administration routes (without header or footer, use AdminLayout)) */}
           <Route
             path="/admin"
             element={

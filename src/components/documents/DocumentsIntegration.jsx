@@ -1,16 +1,16 @@
-// En src/components/documents/DocumentsIntegration.jsx (Juez Virtual)
+// En src/components/documents/DocumentsIntegration.jsx (Virtual Judge)
 import React from 'react'
 
 const DocumentsIntegration = () => {
-  // URL del microservicio de documentos
+  // URL of the document microservice
   const documentsUrl = 'http://localhost:3000'
   
-  // Obtener el token de autenticación
+  // Obtain the authentication token
   const token = localStorage.getItem('auth_token')
   
-  // Función para abrir el microservicio en una nueva pestaña
+  // Function to open the microservice in a new tab
   const openDocumentsService = () => {
-    // Abrir en una nueva pestaña
+    // Open in a new tab
     window.open(documentsUrl, '_blank')
   }
   

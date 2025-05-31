@@ -1,15 +1,15 @@
 import axios from "axios"
 
-// URL base para el servicio de autenticación
+// Base URL for the authentication service
 const AUTH_API_URL = "http://localhost:4000/api/auth"
 
-// Añadir esto al inicio del archivo
-console.log("Configuración de autenticación:", {
+// Add this at the beginning of the file
+console.log("Authentication configuration:", {
   AUTH_API_URL,
   ENV_AUTH_API_URL: import.meta.env.VITE_AUTH_API_URL,
 })
 
-// Crear una instancia de axios para autenticación
+// Create an axios instance for authentication
 const authApi = axios.create({
   baseURL: AUTH_API_URL,
   withCredentials: true,
@@ -18,45 +18,45 @@ const authApi = axios.create({
   },
 })
 
-// Servicio de autenticación
+// Authentication service
 export const authService = {
-  // Iniciar sesión
+  // Log in
   login: async (credentials) => {
     try {
-      console.log("Intentando iniciar sesión con:", credentials)
-      console.log("URL de autenticación:", AUTH_API_URL + "/signin")
+      console.log("Attempting to log in with:", credentials)
+      console.log("Authentication URL:", AUTH_API_URL + "/signin")
 
       const response = await authApi.post(`/signin`, credentials)
-      console.log("Respuesta de login:", response.data)
+      console.log("Login response:", response.data)
 
       const { token } = response.data
 
       if (token) {
-        // Guardar el token en localStorage
+        // Save the token in localStorage
         localStorage.setItem("auth_token", token)
-        console.log("Token guardado correctamente:", token)
+        console.log("Token successfully saved:", token)
         return token
       } else {
-        throw new Error("No se recibió un token válido")
+        throw new Error("No valid token received")
       }
     } catch (error) {
-      console.error("Error en login:", error.response?.data || error.message)
+      console.error("Login error:", error.response?.data || error.message)
       if (error.message.includes("Network Error")) {
         console.error(
-          "Error de red - Posible problema CORS. Verifica que el servidor de autenticación esté configurado correctamente.",
+          "Network error - Possible CORS issue. Make sure the authentication server is configured correctly.",
         )
       }
       throw error
     }
   },
 
-  // Registrar un nuevo usuario
+  // Register a new user
   register: async (userData) => {
     try {
-      console.log("Intentando registrar usuario:", userData)
-      console.log("URL completa:", `${AUTH_API_URL}/signup`)
+      console.log("Attempting to register user:", userData)
+      console.log("Full URL:", `${AUTH_API_URL}/signup`)
 
-      // Intenta una solicitud directa para depurar
+      // Attempt a direct request for debugging
       try {
         const testResponse = await fetch(`${AUTH_API_URL}/signup`, {
           method: "POST",
@@ -71,44 +71,44 @@ export const authService = {
         console.error("Test fetch error:", fetchError)
       }
 
-      // Continuar con la solicitud normal
+      // Continue with the regular request
       const response = await authApi.post(`/signup`, userData)
-      console.log("Respuesta de registro:", response.data)
+      console.log("Registration response:", response.data)
 
       const { token } = response.data
 
       if (token) {
-        // Guardar el token en localStorage
+        // Save the token in localStorage
         localStorage.setItem("auth_token", token)
-        console.log("Token guardado correctamente:", token)
+        console.log("Token successfully saved:", token)
         return token
       } else {
-        throw new Error("No se recibió un token válido")
+        throw new Error("No valid token received")
       }
     } catch (error) {
-      console.error("Error en registro:", error.response?.data || error.message)
+      console.error("Registration error:", error.response?.data || error.message)
       if (error.message.includes("Network Error")) {
         console.error(
-          "Error de red - Posible problema CORS. Verifica que el servidor de autenticación esté configurado correctamente.",
+          "Network error - Possible CORS issue. Make sure the authentication server is configured correctly.",
         )
       }
       throw error
     }
   },
 
-  // Verificar el token actual
+  // Verify the current token
   verifyToken: async () => {
     const token = localStorage.getItem("auth_token")
 
     if (!token) {
-      console.log("No hay token almacenado")
+      console.log("No token stored")
       return null
     }
 
     try {
-      console.log("Verificando token:", token)
+      console.log("Verifying token:", token)
 
-      // Enviar el token en múltiples formatos para asegurar compatibilidad
+      // Send the token in multiple formats to ensure compatibility
       const response = await authApi.post(
         `/verify`,
         { token },
@@ -120,34 +120,34 @@ export const authService = {
         },
       )
 
-      console.log("Respuesta de verificación:", response.data)
+      console.log("Verification response:", response.data)
       return response.data
     } catch (error) {
-      console.error("Error al verificar token:", error.response?.data || error.message)
+      console.error("Error verifying token:", error.response?.data || error.message)
       localStorage.removeItem("auth_token")
       return null
     }
   },
 
-  // Cerrar sesión
+  // Log out
   logout: () => {
     localStorage.removeItem("auth_token")
-    console.log("Sesión cerrada, token eliminado")
+    console.log("Logged out, token removed")
   },
 
-  // Obtener el token actual
+  // Get the current token
   getToken: () => {
     const token = localStorage.getItem("auth_token")
     return token
   },
 
-  // Comprobar si el usuario está autenticado
+  // Check if the user is authenticated
   isAuthenticated: () => {
     return !!localStorage.getItem("auth_token")
   },
 }
 
-// Configurar interceptor global para añadir el token a todas las solicitudes
+// Configure global interceptor to add token to all requests
 axios.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("auth_token")

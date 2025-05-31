@@ -7,7 +7,7 @@ const Header = () => {
   const { user, logout, isAuthenticated, isAdmin } = useAuth()
   const location = useLocation()
 
-  // Función para determinar si un enlace está activo
+  // Function to determine whether a link is active
   const isActive = (path) => {
     return location.pathname === path || location.pathname.startsWith(`${path}/`)
   }

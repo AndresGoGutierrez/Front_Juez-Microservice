@@ -19,7 +19,7 @@ const ProblemCard = ({ problem }) => {
 
   return (
     <div className="card hover:shadow-lg transition-shadow duration-300">
-      {/* Asegúrate de que la ruta sea /problems/:id */}
+      {/* Make sure the route is /problems/:id */}
       <Link to={`/problems/${problem.id_problem}`} className="block p-6">
         <h3 className="text-xl font-semibold mb-2">{problem.title}</h3>
         <p className="text-gray-600 mb-4 line-clamp-2">{problem.description.substring(0, 100)}...</p>

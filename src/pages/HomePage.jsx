@@ -15,7 +15,7 @@ const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState("")
   const [difficultyFilter, setDifficultyFilter] = useState("")
 
-  // Filtrar problemas por término de búsqueda y dificultad
+  // Filter issues by search term and difficulty
   const filteredProblems = problems.filter((problem) => {
     const matchesSearch =
       problem.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -29,7 +29,7 @@ const HomePage = () => {
     return <Loading message="Cargando problemas..." />
   }
 
-  // Mostrar mensaje de autenticación si no está autenticado
+  // Display authentication message if not authenticated
   if (!isAuthenticated) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -51,7 +51,7 @@ const HomePage = () => {
     )
   }
 
-  // Mostrar mensaje de error si hay un problema al cargar los datos
+  // Display error message if there is a problem loading data
   if (error && error !== "Necesitas iniciar sesión para ver los problemas") {
     return <ErrorMessage message={error} />
   }
@@ -65,7 +65,7 @@ const HomePage = () => {
         </div>
       )}
 
-      {/* 👉 Integración de documentos aquí */}
+      {/* 👉 Document integration here */}
       <DocumentsIntegration />
 
       {problems.length === 0 ? (

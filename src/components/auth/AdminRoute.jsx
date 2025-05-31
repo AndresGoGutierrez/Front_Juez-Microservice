@@ -13,12 +13,12 @@ const AdminRoute = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    // Redirigir a la página de inicio de sesión, guardando la ubicación actual
+    // Redirect to the login page, saving the current location
     return <Navigate to="/login" state={{ from: location }} replace />
   }
 
   if (!isAdmin()) {
-    // Redirigir a la página principal si no es administrador
+    // Redirect to the home page if you are not an administrator.
     return <Navigate to="/" state={{ message: "No tienes permisos de administrador" }} replace />
   }
 

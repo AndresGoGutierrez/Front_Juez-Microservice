@@ -15,20 +15,20 @@ export function useProblems() {
       try {
         setLoading(true)
 
-        // Solo intentar cargar problemas si el usuario está autenticado
+        // Only attempt to load problems if the user is authenticated.
         if (isAuthenticated) {
           const data = await problemService.getAll()
           setProblems(data)
           setError(null)
         } else {
-          // Si no está autenticado, establecer un mensaje informativo
+          // If not authenticated, set an informational message
           setError("Necesitas iniciar sesión para ver los problemas")
           setProblems([])
         }
       } catch (err) {
         console.error(err)
 
-        // Manejar específicamente errores de autenticación
+        // Specifically handling authentication errors
         if (err.response && err.response.status === 401) {
           setError("Necesitas iniciar sesión para ver los problemas")
         } else {
@@ -42,7 +42,7 @@ export function useProblems() {
     }
 
     fetchProblems()
-  }, [isAuthenticated]) // Añadir isAuthenticated como dependencia para recargar cuando cambie
+  }, [isAuthenticated]) // Add isAuthenticated as a dependency to reload when it changes
 
   return { problems, loading, error }
 }

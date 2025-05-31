@@ -2,17 +2,17 @@ import api from "./api";
 import axios from "axios";
 import { authService } from "./auth";
 
-// URL base para el servicio de autenticación
+// Base URL for the authentication service
 const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL || "http://localhost:4000";
 
-// Instancia de axios para autenticación con token
+// Axios instance for token authentication
 const authApi = axios.create({
   baseURL: AUTH_API_URL,
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
 
-// Interceptor para añadir token en headers
+// Interceptor for adding tokens to headers
 authApi.interceptors.request.use(
   (config) => {
     const token = authService.getToken();
@@ -26,7 +26,7 @@ authApi.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Servicio para administración de problemas (sin cambios en envíos)
+// Problem management service (no changes to shipments)
 export const adminProblemService = {
   getAll: async () => {
     try {
@@ -75,7 +75,7 @@ export const adminProblemService = {
   },
 };
 
-// Servicio para administración de usuarios con fallback
+// User management service with fallback
 export const adminUserService = {
   getAll: async () => {
     try {
@@ -146,7 +146,7 @@ export const adminUserService = {
   },
 };
 
-// Servicio para administración de envíos
+// Shipping management service
 const SubmissionFilters = {
   USER_ID: 'user_id',
   PROBLEM_ID: 'problem_id',
@@ -156,7 +156,7 @@ const SubmissionFilters = {
 };
 
 export const adminSubmissionService = {
-  // Obtener envíos con filtros dinámicos
+  // Get shipments with dynamic filters
   getAll: async (filters = {}) => {
     try {
       const params = new URLSearchParams();
@@ -175,7 +175,7 @@ export const adminSubmissionService = {
     }
   },
 
-  // Obtener un envío específico
+  // Obtain a specific shipment
   getById: async (id) => {
     try {
       const response = await api.get(`/api/submissions/${id}`);
@@ -186,10 +186,10 @@ export const adminSubmissionService = {
     }
   },
 
-  // Reprocesar un envío (simulado)
+  // Reprocess a shipment (simulated)
   reprocess: async (id) => {
     try {
-      // TODO: Implementar llamada real al endpoint de reprocesamiento
+      // TODO: Implement actual call to reprocessing endpoint
       return {
         id,
         status: "PENDING",
@@ -201,7 +201,7 @@ export const adminSubmissionService = {
     }
   },
 
-  // Eliminar un envío
+  // Delete a shipment
   delete: async (id) => {
     try {
       const response = await api.delete(`/api/submissions/${id}`);

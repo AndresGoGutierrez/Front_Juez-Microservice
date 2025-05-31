@@ -14,7 +14,7 @@ export function useLanguages() {
         setLoading(true)
         console.log("Obteniendo lenguajes...")
 
-        // Intentar obtener lenguajes del localStorage primero
+        // Try to get languages from localStorage first
         const cachedLanguages = localStorage.getItem("languages")
         if (cachedLanguages) {
           const parsedLanguages = JSON.parse(cachedLanguages)
@@ -22,7 +22,7 @@ export function useLanguages() {
           setLanguages(parsedLanguages)
           setError(null)
 
-          // Actualizar en segundo plano
+          // Update in the background
           try {
             const freshData = await languageService.getAll()
             console.log("Lenguajes actualizados:", freshData)
@@ -36,19 +36,19 @@ export function useLanguages() {
           return
         }
 
-        // Si no hay cache, obtener del servidor
+        // If there is no cache, obtain from the server
         const data = await languageService.getAll()
         console.log("Lenguajes obtenidos:", data)
         setLanguages(data)
         setError(null)
 
-        // Guardar en localStorage para futuras visitas
+        // Save to localStorage for future visits
         localStorage.setItem("languages", JSON.stringify(data))
       } catch (err) {
         console.error("Error en useLanguages:", err)
         setError("Error al cargar los lenguajes")
 
-        // Intentar usar lenguajes predeterminados si hay un error
+        // Try using default languages if there is an error
         const defaultLanguages = [
           { id: 1, name: "Python 3.8" },
           { id: 2, name: "C++ (GCC 9.2.0)" },

@@ -13,11 +13,11 @@ import { submissionService } from "../services/api"
 const ProblemPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { user } = useAuth() // Obtener el usuario actual
+  const { user } = useAuth() // Get the current user
 
   console.log("ID del problema desde useParams:", id)
 
-  // Convertir el ID a número si existe
+  // Convert ID to number if it exists
   const problemId = id ? Number.parseInt(id, 10) : null
 
   const { problem, loading: problemLoading, error: problemError } = useProblem(problemId)
@@ -28,7 +28,7 @@ const ProblemPage = () => {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState(null)
 
-  // Logs para depuración
+  // Logs for debugging
   useEffect(() => {
     if (problem) {
       console.log("Problema cargado:", problem)
@@ -59,26 +59,26 @@ const ProblemPage = () => {
       setSubmitting(true)
       setSubmitError(null)
 
-      // Encontrar el nombre del lenguaje seleccionado
+      // Find the name of the selected language
       const selectedLang = languages.find((lang) => lang.id === selectedLanguage)
       const languageName = selectedLang ? selectedLang.name : "Unknown"
 
       const submission = await submissionService.create({
         problem_id: problemId,
         language_id: selectedLanguage,
-        language_name: languageName, // Añadir el nombre del lenguaje
+        language_name: languageName, // Add the name of the language
         source_code: code,
-        user_id: user?.id || localStorage.getItem("user_id") || "default_user", // Usar ID del usuario si está disponible
+        user_id: user?.id || localStorage.getItem("user_id") || "default_user", // Use user ID if available
       })
 
       console.log("Envío creado exitosamente:", submission)
 
-      // Redirigir a la página de resultados
+      // Redirect to the results page
       navigate(`/submissions/${submission.id || submission.id_submission}`)
     } catch (error) {
       console.error("Error al enviar la solución:", error)
 
-      // Mostrar mensaje de error más detallado
+      // Show more detailed error message
       let errorMessage = "Error al enviar la solución. Por favor, intenta de nuevo."
       if (error.response) {
         if (error.response.data && error.response.data.detail) {
@@ -94,17 +94,17 @@ const ProblemPage = () => {
     }
   }
 
-  // Mostrar estado de carga
+  // Show charge status
   if (problemLoading || languagesLoading) {
     return <Loading message={`Cargando problema ${id}...`} />
   }
 
-  // Mostrar error si no hay ID
+  // Display error if no ID
   if (!id) {
     return <ErrorMessage message="ID de problema no especificado" />
   }
 
-  // Mostrar errores
+  // show errors
   if (problemError) {
     return <ErrorMessage message={problemError} />
   }
@@ -113,12 +113,12 @@ const ProblemPage = () => {
     return <ErrorMessage message={languagesError} />
   }
 
-  // Verificar si el problema existe
+  // Check if the problem exists
   if (!problem) {
     return <ErrorMessage message={`No se pudo cargar el problema con ID ${id}`} />
   }
 
-  // Funciones auxiliares
+  // Auxiliary functions
   const formatText = (text = "") => {
     return text.replace(/\n/g, "<br>")
   }
@@ -139,7 +139,7 @@ const ProblemPage = () => {
     }
   }
 
-  // Renderizar el problema
+  // Render the problem
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex justify-between items-center mb-6">

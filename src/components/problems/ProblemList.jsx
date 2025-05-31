@@ -9,7 +9,7 @@ function ProblemList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [difficultyFilter, setDifficultyFilter] = useState("");
 
-  // Filtrar problemas por término de búsqueda y dificultad
+  // Filter issues by search term and difficulty
   const filteredProblems = problems.filter((problem) => {
     const matchesSearch =
       problem.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

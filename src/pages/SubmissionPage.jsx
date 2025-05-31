@@ -14,7 +14,7 @@ function SubmissionPage() {
 
   const { submission, loading, error } = useSubmission(submissionId)
 
-  // Logs para depuración
+  // Logs for debugging
   useEffect(() => {
     console.log("SubmissionPage - ID:", id)
     console.log("SubmissionPage - Parsed ID:", submissionId)
@@ -23,7 +23,7 @@ function SubmissionPage() {
     console.log("SubmissionPage - Error:", error)
   }, [id, submissionId, submission, loading, error])
 
-  // Redirigir a la lista de envíos si no hay ID
+  // Redirect to the shipping list if there is no ID
   useEffect(() => {
     if (!id) {
       console.log("No hay ID de envío, redirigiendo a la lista de envíos")

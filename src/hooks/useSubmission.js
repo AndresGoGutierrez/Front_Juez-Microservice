@@ -31,7 +31,7 @@ export function useSubmission(id) {
           setSubmission(data)
           setError(null)
 
-          // Verificar si necesitamos seguir consultando
+          // Check whether we need to continue consulting
           const statusRequiresPolling = ["in_queue", "processing", "pending", "In Queue", "Processing", "Pending"]
           const needsPolling = statusRequiresPolling.includes(data.status)
 
@@ -62,7 +62,7 @@ export function useSubmission(id) {
 
     fetchSubmission()
 
-    // Configurar polling si es necesario
+    // Configure polling if necessary
     if (polling) {
       pollingInterval = setInterval(fetchSubmission, 3000)
     }

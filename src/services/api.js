@@ -1,24 +1,24 @@
 import axios from "axios"
 import { authService } from "./auth"
 
-// URL base de la API
+// API base URL
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"
 
-// Crear una instancia de axios con la URL base
+// Create an instance of axios with the base URL
 const api = axios.create({
   baseURL: API_BASE_URL,
-  withCredentials: true, // Importante para enviar cookies de autenticación
+  withCredentials: true, // Important for sending authentication cookies
   headers: {
     "Content-Type": "application/json",
   },
 })
 
-// Interceptor para añadir el token de autenticación a todas las solicitudes
+// Interceptor to add the authentication token to all requests
 api.interceptors.request.use(
   (config) => {
     const token = authService.getToken()
     if (token) {
-      // Añadir el token en múltiples formatos para asegurar compatibilidad
+      // Add the token in multiple formats to ensure compatibility
       config.headers["Authorization"] = `Bearer ${token}`
       config.headers["x-access-token"] = token
     }
@@ -30,22 +30,22 @@ api.interceptors.request.use(
   },
 )
 
-// Interceptor para manejar respuestas y errores
+// Interceptor for handling responses and errors
 api.interceptors.response.use(
   (response) => {
     console.log("Respuesta recibida de:", response.config.url, "status:", response.status)
     return response
   },
   (error) => {
-    // Si recibimos un 401, podríamos redirigir al login o refrescar el token
+    // If we receive a 401, we could redirect to the login page or refresh the token.
     if (error.response && error.response.status === 401) {
       console.log("Error de autenticación: Token inválido o expirado")
-      // Opcionalmente, limpiar el token y redirigir al login
+      // Optionally, clear the token and redirect to login
       // authService.logout()
       // window.location.href = '/login'
     }
 
-    // Mejorar el manejo de errores CORS
+    // Improve CORS error handling
     if (error.message.includes("Network Error")) {
       console.error("Error de red - Posible problema CORS. Verifica que el servidor esté configurado correctamente.")
       console.error("URL solicitada:", error.config?.url)
@@ -57,9 +57,9 @@ api.interceptors.response.use(
   },
 )
 
-// Objeto para manejar las llamadas a la API
+// Object for handling API calls
 export const problemService = {
-  // Obtener todos los problemas
+  // Get all problems
   getAll: async () => {
     try {
       console.log("Solicitando problemas...")
@@ -68,7 +68,7 @@ export const problemService = {
       return response.data
     } catch (error) {
       console.error("Error al obtener problemas:", error)
-      // Devolver un array vacío en caso de error para evitar errores en la UI
+      // Return an empty array in case of error to avoid errors in the UI
       if (error.response && error.response.status === 401) {
         console.error("Error de autenticación al obtener problemas")
         return []
@@ -77,7 +77,7 @@ export const problemService = {
     }
   },
 
-  // Obtener un problema específico
+  // Get a specific problem
   getById: async (id) => {
     try {
       console.log(`Solicitando problema con ID: ${id}`)
@@ -98,7 +98,7 @@ export const problemService = {
 }
 
 export const languageService = {
-  // Obtener todos los lenguajes disponibles
+  // Get all available languages
   getAll: async () => {
     try {
       console.log("Solicitando lenguajes...")
@@ -107,7 +107,7 @@ export const languageService = {
       return response.data
     } catch (error) {
       console.error("Error al obtener lenguajes:", error)
-      // En caso de error, devolver una lista predeterminada de lenguajes
+      // In case of error, return a default list of languages
       console.log("Usando lista predeterminada de lenguajes")
       return [
         { id: 1, name: "Python 3.8" },
@@ -125,16 +125,16 @@ export const languageService = {
 }
 
 export const submissionService = {
-  // Crear un nuevo envío
+  // Create a new shipment
   create: async (data) => {
     try {
-      // Transformar los datos al formato esperado por el backend
+      // Transform the data into the format expected by the backend
       const submissionData = {
         problem_id: data.problem_id,
-        language_submission: data.language_name, // Nombre del lenguaje
+        language_submission: data.language_name, // Language name
         language_id: data.language_id,
-        sourceCode: data.source_code, // Alias requerido
-        user_id: data.user_id || localStorage.getItem("user_id") || "default_user", // Obtener user_id de localStorage o usar un valor por defecto
+        sourceCode: data.source_code, // Alias required
+        user_id: data.user_id || localStorage.getItem("user_id") || "default_user", // Get user_id from localStorage or use a default value
       }
 
       console.log("Enviando solución con datos:", submissionData)
@@ -149,14 +149,14 @@ export const submissionService = {
     }
   },
 
-  // Obtener un envío específico
+  // Obtain a specific shipment
   getById: async (id) => {
     try {
       console.log(`Solicitando envío con ID: ${id}`)
       const response = await api.get(`/api/submissions/${id}`)
       console.log(`Envío ${id} recibido:`, response.data)
 
-      // Normalizar los campos para asegurar compatibilidad
+      // Normalize fields to ensure compatibility
       const normalizedSubmission = {
         ...response.data,
         id: response.data.id || response.data.id_submission,
@@ -176,7 +176,7 @@ export const submissionService = {
       const response = await api.get(`/api/submissions`)
       console.log("Todos los envíos recibidos:", response.data)
 
-      // Normalizar los campos para asegurar compatibilidad
+      // Normalize fields to ensure compatibility
       const normalizedSubmissions = response.data.map((submission) => ({
         ...submission,
         id: submission.id || submission.id_submission,
@@ -190,14 +190,14 @@ export const submissionService = {
     }
   },
 
-  // Obtener todos los envíos de un usuario
+  // Get all submissions from a user
   getByUser: async (userId) => {
     try {
       console.log(`Solicitando envíos del usuario: ${userId}`)
       const response = await api.get(`/api/submissions?user_id=${userId}`)
       console.log(`Envíos del usuario ${userId} recibidos:`, response.data)
 
-      // Normalizar los campos para asegurar compatibilidad
+      // Normalize fields to ensure compatibility
       const normalizedSubmissions = response.data.map((submission) => ({
         ...submission,
         id: submission.id || submission.id_submission,
@@ -208,7 +208,7 @@ export const submissionService = {
     } catch (error) {
       console.error("Error al obtener envíos del usuario:", error)
 
-      // Si hay un error 404, devolver un array vacío en lugar de lanzar un error
+      // If there is a 404 error, return an empty array instead of throwing an error.
       if (error.response && error.response.status === 404) {
         console.log("No se encontraron envíos para este usuario, devolviendo array vacío")
         return []

@@ -6,9 +6,9 @@ import { authService } from "../services/auth"
 const AuthContext = createContext(undefined)
 
 export const AuthProvider = ({ children }) => {
-  // Asegurarse de que haya un ID de usuario en localStorage
+  // Ensure that there is a user ID in localStorage
   useEffect(() => {
-    // Si no hay un ID de usuario en localStorage, crear uno temporal
+    // If there is no user ID in localStorage, create a temporary one.
     if (!localStorage.getItem("user_id")) {
       const tempUserId = `temp_${Math.random().toString(36).substring(2, 15)}`
       localStorage.setItem("user_id", tempUserId)
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false)
   }
 
-  // Funciones para verificar roles
+  // Functions for verifying roles
   const isAdmin = () => {
     return user && user.roles && user.roles.includes("admin")
   }

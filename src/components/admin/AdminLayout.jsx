@@ -13,7 +13,7 @@ const AdminLayout = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Barra superior */}
+      {/* Top bar */}
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center">
@@ -40,7 +40,7 @@ const AdminLayout = ({ children }) => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Barra lateral */}
+          {/* Sidebar */}
           <aside className="w-full md:w-64 bg-white shadow rounded-lg p-4">
             <nav className="space-y-1">
               <Link
@@ -83,7 +83,7 @@ const AdminLayout = ({ children }) => {
             </nav>
           </aside>
 
-          {/* Contenido principal */}
+          {/* Main content */}
           <main className="flex-1 bg-white shadow rounded-lg p-6">{children}</main>
         </div>
       </div>

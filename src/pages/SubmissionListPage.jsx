@@ -19,13 +19,13 @@ function SubmissionListPage() {
         setLoading(true)
         console.log("Obteniendo lista de envíos...")
 
-        // Si el usuario está autenticado, obtener sus envíos
+        // If the user is authenticated, obtain their submissions
         if (user && user.id) {
           const data = await submissionService.getByUser(user.id)
           console.log("Envíos obtenidos:", data)
           setSubmissions(data)
         } else {
-          // Si no hay usuario, intentar obtener todos los envíos (si el backend lo permite)
+          // If there is no user, try to obtain all submissions (if the backend allows it)
           const data = await submissionService.getAll()
           console.log("Envíos obtenidos (sin usuario específico):", data)
           setSubmissions(data)

@@ -7,7 +7,7 @@ function CodeEditor({ language, languages, onLanguageChange, onCodeChange, initi
   const [code, setCode] = useState(initialCode)
   const [editorLanguage, setEditorLanguage] = useState("python")
 
-  // Mapeo de IDs de lenguaje a identificadores de Monaco
+  // Mapping language IDs to Monaco identifiers
   const languageMap = {
     1: "python", // Python
     2: "cpp", // C++
@@ -20,12 +20,12 @@ function CodeEditor({ language, languages, onLanguageChange, onCodeChange, initi
     9: "rust", // Rust
   }
 
-  // Actualizar el lenguaje del editor cuando cambia el lenguaje seleccionado
+  // Update the editor language when the selected language changes
   useEffect(() => {
     const monacoLanguage = languageMap[language] || "plaintext"
     setEditorLanguage(monacoLanguage)
 
-    // Iniciar con un editor vacío, sin plantillas
+    // Start with a blank editor, without templates
     if (code === "" || code === initialCode) {
       setCode("")
       onCodeChange("")

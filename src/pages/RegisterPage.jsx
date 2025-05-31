@@ -17,7 +17,7 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // Validación básica
+    // Basic validation
     if (!username.trim() || !email.trim() || !password.trim()) {
       setFormError("Por favor, completa todos los campos")
       return
@@ -30,10 +30,10 @@ const RegisterPage = () => {
 
     try {
       await register(username, email, password)
-      // Redirigir al usuario a la página principal
+      // Redirect the user to the home page
       navigate("/")
     } catch (err) {
-      // El error ya se maneja en el contexto de autenticación
+      // The error is already handled in the authentication context.
     }
   }
 
