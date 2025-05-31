@@ -37,7 +37,7 @@ const UserList = () => {
     const matchesSearch =
       user.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.id?.toString().includes(searchTerm)
+      user._id?.toString().includes(searchTerm)
 
     const matchesRole = roleFilter === "" || (user.roles && user.roles.includes(roleFilter))
 
@@ -152,8 +152,8 @@ const UserList = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredUsers.map((user) => (
-                <tr key={user.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.id}</td>
+                <tr key={user._id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user._id}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">{user.username}</div>
                   </td>
@@ -181,8 +181,8 @@ const UserList = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(user.createdAt)}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <Link to={`/admin/users/${user.id}`} className="text-primary-600 hover:text-primary-900 mr-3">
-                      Ver Detalles
+                    <Link to={`/admin/users/${user._id}`} className="...">
+                      {user._id ? "Ver Detalles" : "ID no definido"}
                     </Link>
                   </td>
                 </tr>

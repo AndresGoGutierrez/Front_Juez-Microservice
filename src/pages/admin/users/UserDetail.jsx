@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useParams, Link, useNavigate } from "react-router-dom"
 import AdminLayout from "../../../components/admin/AdminLayout"
 import { adminUserService } from "../../../services/adminApi"
+import { adminSubmissionService } from "../../../services/adminApi"
 import Loading from "../../../components/common/Loading"
 import ErrorMessage from "../../../components/common/ErrorMessage"
 
@@ -28,7 +29,7 @@ const UserDetail = () => {
         setUser(userData)
 
         // Obtener envíos del usuario
-        const submissionsData = await adminUserService.getUserSubmissions(id)
+        const submissionsData = await adminSubmissionService.getById(id)
         setSubmissions(Array.isArray(submissionsData) ? submissionsData : submissionsData.submissions || [])
 
         setError(null)
@@ -305,7 +306,7 @@ const UserDetail = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <Link
-                          to={`/admin/submissions/${submission.id || submission.id_submission}`}
+                          to={`/submissions/${submission.id || submission.id_submission}`}
                           className="text-primary-600 hover:text-primary-900"
                         >
                           Ver

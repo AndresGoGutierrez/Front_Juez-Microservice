@@ -91,7 +91,7 @@ export const adminUserService = {
 
 
 
-        const response = await authApi.get("/api/users");
+        const response = await authApi.get("/api//users");
 
 
         
@@ -110,7 +110,7 @@ export const adminUserService = {
   },
   getById: async (id) => {
     try {
-      const response = await authApi.get(`/api/users/${id}`);
+      const response = await authApi.get(`/api/admin/users/${id}`);
       return response.data;
     } catch (error) {
       console.error(`Error al obtener el usuario ${id}:`, error);
@@ -176,13 +176,30 @@ export const adminSubmissionService = {
   },
 
   // Obtain a specific shipment
-  getById: async (id) => {
+  getById: async (userId) => {
     try {
-      const response = await api.get(`/api/submissions/${id}`);
-      return response.data;
+      console.log(`Solicitando envíos del usuario: ${userId}`)
+      const response = await api.get(`/api/submissions?user_id=${userId}`)
+      console.log(`Envíos del usuario ${userId} recibidos:`, response.data)
+
+      // Normalize fields to ensure compatibility
+      const normalizedSubmissions = response.data.map((submission) => ({
+        ...submission,
+        id: submission.id || submission.id_submission,
+        status: submission.status || submission.status_submission || "Pending",
+      }))
+
+      return normalizedSubmissions
     } catch (error) {
-      console.error(`Error al obtener el envío ${id}:`, error);
-      throw error;
+      console.error("Error al obtener envíos del usuario:", error)
+
+      // If there is a 404 error, return an empty array instead of throwing an error.
+      if (error.response && error.response.status === 404) {
+        console.log("No se encontraron envíos para este usuario, devolviendo array vacío")
+        return []
+      }
+
+      throw error
     }
   },
 

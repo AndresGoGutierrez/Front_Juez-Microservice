@@ -259,7 +259,7 @@ const SubmissionList = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <Link
-                      to={`/admin/submissions/${submission.id || submission.id_submission}`}
+                      to={`/submissions/${submission.id || submission.id_submission}`}
                       className="text-primary-600 hover:text-primary-900 mr-3"
                     >
                       Ver
