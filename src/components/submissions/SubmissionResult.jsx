@@ -12,12 +12,16 @@ const SubmissionResult = ({ submission }) => {
   const getStatusClass = (status) => {
     const statusLower = status?.toLowerCase() || ""
 
-    if (statusLower.includes("accepted")) return "status-accepted"
-    if (statusLower.includes("wrong")) return "status-wrong-answer"
-    if (statusLower.includes("time limit")) return "status-time-limit"
-    if (statusLower.includes("compilation")) return "status-compilation-error"
-    if (statusLower.includes("runtime")) return "status-runtime-error"
-    if (statusLower.includes("pending") || statusLower.includes("queue") || statusLower.includes("processing"))
+    if (statusLower.includes("accepted")) return "bg-green-100 text-green-800"
+    if (statusLower.includes("wrong")) return "bg-red-100 text-red-800"
+    if (statusLower.includes("time limit")) return "bg-yellow-100 text-yellow-800"
+    if (statusLower.includes("compilation")) return "bg-indigo-100 text-indigo-800"
+    if (statusLower.includes("runtime")) return "bg-pink-100 text-pink-800"
+    if (
+      statusLower.includes("pending") ||
+      statusLower.includes("queue") ||
+      statusLower.includes("processing")
+    )
       return "bg-blue-100 text-blue-800"
 
     return "bg-gray-100 text-gray-800"
@@ -51,7 +55,11 @@ const SubmissionResult = ({ submission }) => {
 
       <div className="mb-4">
         <div className="flex items-center mb-2">
-          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusClass(submission.status)} mr-2`}>
+          <span
+            className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusClass(
+              submission.status
+            )} mr-2`}
+          >
             {submission.status || "Estado desconocido"}
           </span>
           <span className="text-gray-500 text-sm">
@@ -59,7 +67,9 @@ const SubmissionResult = ({ submission }) => {
           </span>
         </div>
 
-        {submission.status_description && <p className="mt-2 text-gray-700">{submission.status_description}</p>}
+        {submission.status_description && (
+          <p className="mt-2 text-gray-700">{submission.status_description}</p>
+        )}
       </div>
 
       {isPending && (
@@ -70,7 +80,14 @@ const SubmissionResult = ({ submission }) => {
             fill="none"
             viewBox="0 0 24 24"
           >
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
             <path
               className="opacity-75"
               fill="currentColor"
@@ -78,8 +95,8 @@ const SubmissionResult = ({ submission }) => {
             ></path>
           </svg>
           <p>
-            Tu solución está siendo evaluada. Esta página se actualizará automáticamente cuando el resultado esté
-            disponible.
+            Tu solución está siendo evaluada. Esta página se actualizará
+            automáticamente cuando el resultado esté disponible.
           </p>
         </div>
       )}
@@ -107,15 +124,21 @@ const SubmissionResult = ({ submission }) => {
           <h4 className="text-lg font-semibold mb-2">Casos de Prueba</h4>
           <div className="space-y-4">
             {submission.test_cases.map((testCase, index) => {
-              const passed = testCase.passed || testCase.status?.toLowerCase().includes("accepted")
+              const passed =
+                testCase.passed || testCase.status?.toLowerCase().includes("accepted")
               const bgClass = passed ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"
               const textColor = passed ? "text-green-800" : "text-red-800"
 
               return (
-                <div key={index} className={`${bgClass} border rounded-lg p-4`}>
+                <div
+                  key={index}
+                  className={`${bgClass} border rounded-lg p-4`}
+                >
                   <h5 className={`${textColor} font-medium`}>Caso de prueba #{index + 1}</h5>
                   {testCase.status_description && (
-                    <p className={`text-sm ${textColor} mb-2`}>{testCase.status_description}</p>
+                    <p className={`text-sm ${textColor} mb-2`}>
+                      {testCase.status_description}
+                    </p>
                   )}
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">

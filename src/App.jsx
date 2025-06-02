@@ -1,38 +1,71 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { AuthProvider } from "./context/AuthContext"
-import Header from "./components/common/Header"
-import Footer from "./components/common/Footer"
-import HomePage from "./pages/HomePage"
-import ProblemPage from "./pages/ProblemPage"
-import SubmissionPage from "./pages/SubmissionPage"
-import SubmissionListPage from "./pages/SubmissionListPage"
-import LoginPage from "./pages/LoginPage"
-import RegisterPage from "./pages/RegisterPage"
-import NotFoundPage from "./pages/NotFoundPage"
-import ProtectedRoute from "./components/auth/ProtectedRoute"
-import AdminRoute from "./components/auth/AdminRoute"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import Header from "./components/common/Header";
+import Footer from "./components/common/Footer";
+import HomePage from "./pages/HomePage";
+import ProblemPage from "./pages/ProblemPage";
 
-import AdminProblemDetail from "./pages/admin/problems/ProblemDetail"
-import AdminUserDetail from "./pages/admin/users/UserDetail"
+import ProfilePage from "./pages/ProfilePage";
+
+import SubmissionPage from "./pages/SubmissionPage";
+import SubmissionListPage from "./pages/SubmissionListPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import AdminRoute from "./components/auth/AdminRoute";
+
+import AdminProblemDetail from "./pages/admin/problems/ProblemDetail";
+import AdminUserDetail from "./pages/admin/users/UserDetail";
+
+import PQRSPage from "./pages/PQRSPage";
+import PQRSDashboard from "./components/pqrs/PQRSDashboard";
 
 // Páginas de administración
-import AdminDashboard from "./pages/admin/AdminDashboard"
-import AdminProblemList from "./pages/admin/problems/ProblemList"
-import AdminProblemCreate from "./pages/admin/problems/ProblemCreate"
-import AdminProblemEdit from "./pages/admin/problems/ProblemEdit"
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminProblemList from "./pages/admin/problems/ProblemList";
+import AdminProblemCreate from "./pages/admin/problems/ProblemCreate";
+import AdminProblemEdit from "./pages/admin/problems/ProblemEdit";
 
+import AdminUserList from "./pages/admin/users/UserList";
 
-import AdminUserList from "./pages/admin/users/UserList"
-
-
-import AdminSubmissionList from "./pages/admin/submissions/SubmissionList"
+import AdminSubmissionList from "./pages/admin/submissions/SubmissionList";
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
+          {/* PQRS routes */}
+          <Route
+            path="/pqrs/*"
+            element={
+              <ProtectedRoute>
+                <PQRSPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pqrs-dashboard"
+            element={
+              <ProtectedRoute>
+                <PQRSDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="/profile" element={<ProfilePage />} />
           {/* Public routes with header and footer */}
+
+          <Route
+                path="/"
+                element={
+                  <>
+                    <Header />
+                    <HomePage />
+                  </>
+                }
+              />
           <Route
             path="/"
             element={
@@ -69,7 +102,6 @@ function App() {
               </>
             }
           />
-          
 
           {/* Routes protected with Header and Footer */}
           <Route
@@ -114,8 +146,6 @@ function App() {
               </>
             }
           />
-
-          
 
           {/* Administration routes (without header or footer, use AdminLayout)) */}
           <Route
@@ -199,7 +229,7 @@ function App() {
         </Routes>
       </Router>
     </AuthProvider>
-  )
+  );
 }
 
-export default App
+export default App;

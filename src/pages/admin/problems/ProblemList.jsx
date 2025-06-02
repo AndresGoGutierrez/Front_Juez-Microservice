@@ -66,15 +66,15 @@ const ProblemList = () => {
     switch (difficulty.toLowerCase()) {
       case "easy":
       case "fácil":
-        return "bg-green-100 text-green-800"
+        return "bg-sky-50 text-sky-700"
       case "medium":
       case "medio":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-purple-50 text-purple-700"
       case "hard":
       case "difícil":
-        return "bg-red-100 text-red-800"
+        return "bg-orange-50 text-orange-700"
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-orange-50 text-orange-700"
     }
   }
 
@@ -156,11 +156,6 @@ const ProblemList = () => {
                       >
                         {problem.difficulty}
                       </span>
-                      {!problem.is_public && (
-                        <span className="ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                          No publicado
-                        </span>
-                      )}
                     </div>
                     <div className="ml-2 flex-shrink-0 flex">
                       <Link
@@ -188,9 +183,6 @@ const ProblemList = () => {
                       <p className="flex items-center text-sm text-gray-500">
                         ID: {problem.id_problem} | Tiempo: {problem.time_limit}s | Memoria: {problem.memory_limit} MB
                       </p>
-                    </div>
-                    <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                      <p>Creado: {new Date(problem.created_at).toLocaleDateString()}</p>
                     </div>
                   </div>
                 </div>

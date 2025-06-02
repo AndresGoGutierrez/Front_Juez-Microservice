@@ -5,27 +5,33 @@ const ProblemCard = ({ problem }) => {
     switch (difficulty.toLowerCase()) {
       case "easy":
       case "fácil":
-        return "difficulty-easy"
+        return "bg-sky-50 text-sky-700"
       case "medium":
       case "medio":
-        return "difficulty-medium"
+        return "bg-purple-50 text-purple-700"
       case "hard":
       case "difícil":
-        return "difficulty-hard"
+        return "bg-orange-50 text-orange-700"
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-orange-50 text-orange-700"
     }
   }
 
   return (
-    <div className="card hover:shadow-lg transition-shadow duration-300">
-      {/* Make sure the route is /problems/:id */}
+    <div className="card hover:shadow-lg transition-shadow duration-300 bg-white rounded-lg shadow-sm overflow-hidden">
       <Link to={`/problems/${problem.id_problem}`} className="block p-6">
-        <h3 className="text-xl font-semibold mb-2">{problem.title}</h3>
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="text-xl font-semibold text-gray-900">{problem.title}</h3>
+          <span className={`ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium ${getDifficultyClass(problem.difficulty)}`}>
+            {problem.difficulty}
+          </span>
+        </div>
+        
         <p className="text-gray-600 mb-4 line-clamp-2">{problem.description.substring(0, 100)}...</p>
-        <div className="flex justify-between items-center">
-          <span className={`badge ${getDifficultyClass(problem.difficulty)}`}>{problem.difficulty}</span>
-          <span className="text-gray-500 text-sm">Tiempo límite: {problem.time_limit}s</span>
+        
+        <div className="flex justify-between items-center text-sm">
+          <span className="text-gray-500">ID: {problem.id_problem}</span>
+          <span className="text-gray-500">Tiempo: {problem.time_limit}s</span>
         </div>
       </Link>
     </div>

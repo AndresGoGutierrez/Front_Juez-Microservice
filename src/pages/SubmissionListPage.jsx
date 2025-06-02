@@ -19,13 +19,11 @@ function SubmissionListPage() {
         setLoading(true)
         console.log("Obteniendo lista de envíos...")
 
-        // If the user is authenticated, obtain their submissions
         if (user && user.id) {
           const data = await submissionService.getByUser(user.id)
           console.log("Envíos obtenidos:", data)
           setSubmissions(data)
         } else {
-          // If there is no user, try to obtain all submissions (if the backend allows it)
           const data = await submissionService.getAll()
           console.log("Envíos obtenidos (sin usuario específico):", data)
           setSubmissions(data)
@@ -51,15 +49,20 @@ function SubmissionListPage() {
     return <ErrorMessage message={error} />
   }
 
+  // Aquí la función getStatusClass usa las mismas clases Tailwind del primer código
   const getStatusClass = (status) => {
     const statusLower = status?.toLowerCase() || ""
 
-    if (statusLower.includes("accepted")) return "status-accepted"
-    if (statusLower.includes("wrong")) return "status-wrong-answer"
-    if (statusLower.includes("time limit")) return "status-time-limit"
-    if (statusLower.includes("compilation")) return "status-compilation-error"
-    if (statusLower.includes("runtime")) return "status-runtime-error"
-    if (statusLower.includes("pending") || statusLower.includes("queue") || statusLower.includes("processing"))
+    if (statusLower.includes("accepted")) return "bg-green-100 text-green-800"
+    if (statusLower.includes("wrong")) return "bg-red-100 text-red-800"
+    if (statusLower.includes("time limit")) return "bg-yellow-100 text-yellow-800"
+    if (statusLower.includes("compilation")) return "bg-indigo-100 text-indigo-800"
+    if (statusLower.includes("runtime")) return "bg-pink-100 text-pink-800"
+    if (
+      statusLower.includes("pending") ||
+      statusLower.includes("queue") ||
+      statusLower.includes("processing")
+    )
       return "bg-blue-100 text-blue-800"
 
     return "bg-gray-100 text-gray-800"
@@ -71,15 +74,12 @@ function SubmissionListPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">Mis Envíos</h1>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Mis Envíos</h1>
 
       {submissions.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-lg shadow-md">
-          <p className="text-gray-500 mb-4">No has realizado ningún envío todavía.</p>
-          <Link to="/" className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700">
-            Ver problemas
-          </Link>
+        <div className="text-center py-12 bg-white rounded-lg shadow">
+          <p className="text-gray-500">No se encontraron envíos.</p>
         </div>
       ) : (
         <div className="bg-white shadow overflow-hidden sm:rounded-lg">
@@ -90,19 +90,19 @@ function SubmissionListPage() {
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Problema
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Estado
+                  ID
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   Lenguaje
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Estado
                 </th>
                 <th
                   scope="col"
@@ -120,21 +120,21 @@ function SubmissionListPage() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {submissions.map((submission) => (
-                <tr key={submission.id || submission.id_submission} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <Link to={`/problems/${submission.problem_id}`} className="text-primary-600 hover:text-primary-900">
-                      Problema #{submission.problem_id}
-                    </Link>
+                <tr key={submission.id || submission.id_submission}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {submission.id || submission.id_submission}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {submission.language || submission.language_submission}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(submission.status || submission.status_submission)}`}
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(
+                        submission.status || submission.status_submission
+                      )}`}
                     >
-                      {submission.status || submission.status_submission || "Desconocido"}
+                      {submission.status || submission.status_submission}
                     </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {submission.language || submission.language_submission || "Desconocido"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {formatDate(submission.created_at)}

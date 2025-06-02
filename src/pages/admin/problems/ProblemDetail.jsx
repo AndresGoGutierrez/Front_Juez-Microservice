@@ -84,15 +84,15 @@ const ProblemDetail = () => {
     switch (difficulty?.toLowerCase()) {
       case "easy":
       case "fácil":
-        return "bg-green-100 text-green-800"
+        return "bg-sky-50 text-sky-700"
       case "medium":
       case "medio":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-purple-50 text-purple-700"
       case "hard":
       case "difícil":
-        return "bg-red-100 text-red-800"
+        return "bg-orange-50 text-orange-700"
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-orange-50 text-orange-700"
     }
   }
 
@@ -166,11 +166,6 @@ const ProblemDetail = () => {
             >
               {problem.difficulty}
             </span>
-            {!problem.is_public && (
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                No publicado
-              </span>
-            )}
           </div>
         </div>
         <div className="border-t border-gray-200">
